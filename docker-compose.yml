@@ -1,0 +1,42 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/var/www/public
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - articles
+
+  articles:
+    image: airlance/articles:latest
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_DSN: mysql:host=db;dbname=articles
+      DB_USER: article_user
+      DB_PASSWORD: article_password
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: articles
+      MYSQL_USER: article_user
+      MYSQL_PASSWORD: article_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
