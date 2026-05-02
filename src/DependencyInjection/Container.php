@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection;
 
+use Closure;
 use ReflectionClass;
+use ReflectionFunction;
 use ReflectionException;
+use ReflectionParameter;
 
 class Container
 {
+    public function __construct()
+    {
+        $this->instances[self::class] = $this;
+    }
+
     /**
      * @var array<string, callable>
      */
@@ -37,11 +45,31 @@ class Container
 
     public function make(string $className): object
     {
+        if (isset($this->instances[$className])) {
+            return $this->instances[$className];
+        }
+
         if (isset($this->bindings[$className])) {
             return ($this->bindings[$className])($this);
         }
 
         return $this->resolve($className);
+    }
+
+    public function call(callable $callable): mixed
+    {
+        try {
+            $closure = $callable instanceof Closure
+                ? $callable
+                : Closure::fromCallable($callable);
+
+            $reflection = new ReflectionFunction($closure);
+        } catch (ReflectionException) {
+            throw new \RuntimeException("Function does not exist");
+        }
+
+        $dependencies = $this->resolveParameters($reflection->getParameters());
+        return $callable(...$dependencies);
     }
 
     private function resolve(string $className): object
@@ -60,26 +88,7 @@ class Container
             return $instance;
         }
 
-        $params = $constructor->getParameters();
-        $dependencies = [];
-
-        foreach ($params as $param) {
-            $type = $param->getType();
-
-            if ($type === null || $type->isBuiltin()) {
-                if ($param->isDefaultValueAvailable()) {
-                    $dependencies[] = $param->getDefaultValue();
-                } else {
-                    throw new \RuntimeException(
-                        "Cannot resolve parameter \${$param->getName()} in $className"
-                    );
-                }
-
-                continue;
-            }
-
-            $dependencies[] = $this->make($type->getName());
-        }
+        $dependencies = $this->resolveParameters($constructor->getParameters());
 
         try {
             $instance = $reflection->newInstanceArgs($dependencies);
@@ -118,5 +127,34 @@ class Container
 
             $class = $class->getParentClass();
         }
+    }
+
+    /**
+     * @param array<ReflectionParameter> $parameters
+     * @return array<mixed>
+     */
+    private function resolveParameters(array $parameters): array
+    {
+        $dependencies = [];
+
+        foreach ($parameters as $param) {
+            $type = $param->getType();
+
+            if ($type === null || $type->isBuiltin()) {
+                if ($param->isDefaultValueAvailable()) {
+                    $dependencies[] = $param->getDefaultValue();
+                } else {
+                    throw new \RuntimeException(
+                        "Cannot resolve parameter \${$param->getName()}"
+                    );
+                }
+
+                continue;
+            }
+
+            $dependencies[] = $this->make($type->getName());
+        }
+
+        return $dependencies;
     }
 }
