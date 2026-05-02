@@ -3,11 +3,32 @@
   "require": {
     "php": "^8.1",
     "smarty/smarty": "^5.8",
-    "fakerphp/faker": "^1.24"
+    "fakerphp/faker": "^1.24",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {
       "App\\": "src/"
+    }
+  },
+  "scripts": {
+    "phpcs": [
+      "phpcs --standard=phpcs.xml -p --parallel=10 --no-cache"
+    ],
+    "phpcs-fix": [
+      "phpcbf --standard=phpcs.xml -p --parallel=10 --no-cache"
+    ],
+    "phpstan": [
+      "phpstan analyse -c phpstan.neon --no-progress"
+    ]
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^4.0",
+    "slevomat/coding-standard": "~8.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <file>./config/</file>
+    <file>./src</file>
+
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/RequireSingleLineMethodSignatureSniff.php">
+        <properties>
+            <property name="maxLineLength" value="120" />
+        </properties>
+    </rule>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/RequireMultiLineMethodSignatureSniff.php">
+        <properties>
+            <property name="minLineLength" value="121" />
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
+        <properties>
+            <property name="shortNullable" value="yes" />
+            <property name="nullPosition" value="first" />
+        </properties>
+    </rule>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Classes/ParentCallSpacingSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/BlockControlStructureSpacingSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/DisallowYodaComparisonSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/ControlStructures/AssignmentInConditionSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/PHP/UselessSemicolonSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Commenting/EmptyCommentSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Namespaces/AlphabeticallySortedUsesSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Functions/DisallowTrailingCommaInCallSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/ParameterTypeHintSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/PropertyTypeHintSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/Operators/DisallowEqualOperatorsSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/NullableTypeForNullDefaultValueSniff.php"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php">
+        <properties>
+            <property name="linesCountBeforeDeclare" value="1" />
+            <property name="linesCountAfterDeclare" value="1" />
+            <property name="spacesCountAroundEqualsSign" value="0" />
+        </properties>
+    </rule>
+    <rule ref="Generic.NamingConventions.AbstractClassNamePrefix"/>
+    <rule ref="Generic.NamingConventions.TraitNameSuffix"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="date_create_immutable" value="Clock"/>
+                <element key="date_create" value="Clock"/>
+                <element key="date_timestamp_get" value="Clock"/>
+                <element key="date_timezone_get" value="Clock"/>
+                <element key="date" value="Clock"/>
+                <element key="getdate" value="Clock"/>
+                <element key="gettimeofday" value="Clock"/>
+                <element key="gmdate" value="Clock"/>
+                <element key="gmmktime" value="Clock"/>
+                <element key="gmstrftime" value="Clock"/>
+                <element key="idate" value="Clock"/>
+                <element key="localtime" value="Clock"/>
+                <element key="mktime" value="Clock"/>
+                <element key="strftime" value="Clock"/>
+                <element key="strtotime" value="Clock"/>
+                <element key="timezone_offset_get" value="Clock"/>
+                <element key="curl_init" value="HttpClientInterface"/>
+                <element key="curl_setopt" value="HttpClientInterface"/>
+                <element key="curl_exec" value="HttpClientInterface"/>
+                <element key="curl_close" value="HttpClientInterface"/>
+                <element key="is_null" value="=== null"/>
+                <element key="sleep" value="ClockInterface"/>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterHint">
+        <severity>8</severity>
+    </rule>
+    <rule ref="Squiz.NamingConventions.ValidFunctionName.NotCamelCaps"/>
+    <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    <rule ref="Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+    <rule ref="Squiz.NamingConventions.ValidVariableName.StringNotCamelCaps"/>
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+        <properties>
+            <property name="rootNamespaces" type="array">
+                <element key="src" value="App"/>
+                <element key="tests" value="App\Tests"/>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+    <rule ref="SlevomatCodingStandard.Functions.UnusedParameter"/>
+    <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration">
+        <properties>
+            <property name="spacesCountAfterKeyword" value="1"/>
+            <property name="spacesCountBeforeArrow" value="1"/>
+            <property name="spacesCountAfterArrow" value="1"/>
+            <property name="allowMultiLine" value="false"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace">
+        <properties>
+            <property name="spacesAroundBrackets" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+
+    <rule ref="PSR12">
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+    </rule>
+
+</ruleset>
