@@ -9,7 +9,7 @@ use PDOException;
 
 class Connection
 {
-    private ?PDO $pdo;
+    private ?PDO $pdo = null;
 
     public function __construct(
         private readonly string $dsn,
@@ -33,8 +33,12 @@ class Connection
         $this->pdo = null;
     }
 
-    public function getInstance(): ?PDO
+    public function getInstance(): PDO
     {
+        if ($this->pdo === null) {
+            $this->open();
+        }
+
         return $this->pdo;
     }
 
@@ -44,5 +48,14 @@ class Connection
     public function createCommand(string $sql, array $params = []): Command
     {
         return (new Command($this, $sql))->bindValues($params);
+    }
+
+    public function getLastInsertId(): ?int
+    {
+        if ($this->pdo->lastInsertId() !== false) {
+            return (int) $this->pdo->lastInsertId();
+        }
+
+        return null;
     }
 }

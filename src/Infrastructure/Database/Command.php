@@ -13,7 +13,6 @@ class Command
 
     public function __construct(Connection $connection, string $sql)
     {
-        assert($connection->getInstance() instanceof PDO);
         $this->statement = $connection->getInstance()->prepare($sql);
     }
 
@@ -58,5 +57,12 @@ class Command
     {
         $this->execute();
         return $this->statement->fetch();
+    }
+
+    public function queryScalar(): mixed
+    {
+        $this->execute();
+        $result = $this->statement->fetchColumn();
+        return $result === false ? null : $result;
     }
 }
