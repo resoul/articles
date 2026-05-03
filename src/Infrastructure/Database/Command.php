@@ -53,10 +53,12 @@ class Command
         return $this->statement->fetchAll();
     }
 
-    public function queryOne(): array
+    public function queryOne(): ?array
     {
         $this->execute();
-        return $this->statement->fetch();
+        $row = $this->statement->fetch(PDO::FETCH_ASSOC);
+
+        return $row === false ? null : $row;
     }
 
     public function queryScalar(): mixed

@@ -6,6 +6,9 @@ namespace App\Infrastructure\Route;
 
 class RouteCollection
 {
+    /**
+     * @var array<Route> $routes
+     */
     private array $routes = [];
 
     public function add(string $name, string $pattern): Route

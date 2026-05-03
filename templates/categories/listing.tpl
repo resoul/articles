@@ -13,11 +13,9 @@
     <section class="categories-section">
         <div class="container">
             <div class="categories-grid">
-                {foreach $categories as $category}
-                    <a href="/category/{$category.slug}" class="category-card">
-                        <div class="category-icon">{$category.icon|default:'📁'}</div>
-                        <h3 class="category-name">{$category.name}</h3>
-                        <p class="category-count">{$category.count|default:0} Articles</p>
+                {foreach $page->categories as $category}
+                    <a href="/category/get/{$category->slug}" class="category-card">
+                        <h3 class="category-name">{$category->name}</h3>
                     </a>
                 {/foreach}
             </div>

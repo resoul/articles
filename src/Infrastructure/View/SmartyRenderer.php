@@ -17,6 +17,9 @@ class SmartyRenderer implements TemplateInterface
         $this->smarty->setCompileDir(sprintf('%s/%s/', ROOT_PATH, 'templates_c'));
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function render(string $template, array $data = []): string
     {
         foreach ($data as $key => $value) {

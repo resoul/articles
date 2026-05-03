@@ -7,13 +7,10 @@
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/categories" class="nav-link">Categories</a></li>
-                    <li><a href="/articles" class="nav-link">Articles</a></li>
+                    <li><a href="/category/listing" class="nav-link">Categories</a></li>
+                    <li><a href="/article/listing" class="nav-link">Articles</a></li>
                 </ul>
             </nav>
-            <div class="header-actions">
-                <button class="btn btn-primary">Subscribe</button>
-            </div>
         </div>
     </div>
 </header>

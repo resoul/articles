@@ -40,6 +40,7 @@ try {
     }
 
     $sql = "INSERT INTO articles (title, image_url, content, slug) VALUES (:title, :imageUrl, :content, :slug)";
+
     for ($i = 0; $i < $articles; $i++) {
         $title = $faker->generateTitle();
         $db->createCommand($sql, [
@@ -52,6 +53,7 @@ try {
     }
 
     $sql = "INSERT INTO article_category (article_id, category_id) VALUES (:articleId, :categoryId)";
+
     for ($i = 0; $i < $articles; $i++) {
         $shuffled = $categoryIdx;
         shuffle($shuffled);

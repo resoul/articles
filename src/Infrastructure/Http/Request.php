@@ -6,9 +6,11 @@ namespace App\Infrastructure\Http;
 
 class Request
 {
-    public function getQueryParams(): array
+    public QueryParameters $query;
+
+    public function __construct()
     {
-        return $_GET;
+        $this->query = new QueryParameters($_GET);
     }
 
     public function getMethod(): string
@@ -22,6 +24,9 @@ class Request
 
     public function getUri(): string
     {
-        return $_SERVER['REQUEST_URI'];
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        $path = parse_url($requestUri, PHP_URL_PATH);
+
+        return is_string($path) && $path !== '' ? $path : '/';
     }
 }

@@ -6,8 +6,8 @@ namespace App\DependencyInjection;
 
 use Closure;
 use ReflectionClass;
-use ReflectionFunction;
 use ReflectionException;
+use ReflectionFunction;
 use ReflectionParameter;
 
 class Container
