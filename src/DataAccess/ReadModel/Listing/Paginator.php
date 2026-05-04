@@ -9,7 +9,7 @@ use App\Infrastructure\Database\Query;
 
 class Paginator
 {
-    public function __construct(private Query $query, private ListingPagination $pagination,)
+    public function __construct(private Query $query, private ListingPagination $pagination)
     {
     }
 

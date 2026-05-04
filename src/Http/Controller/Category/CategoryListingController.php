@@ -16,8 +16,15 @@ class CategoryListingController extends AbstractController
 
     public function __invoke()
     {
-        $categories = $this->categoryListingQuery->getListing();
-        $page = new CategoryListingPage($categories);
+        $categories = $this->categoryListingQuery->getListing(
+            pagination: $this->getListingPagination(),
+            sort: $this->getListingSort()
+        );
+
+        $page = new CategoryListingPage(
+            categories: $categories->items,
+            pagination: $categories->pagination
+        );
 
         return $this->render('categories/listing.tpl', ['page' => $page]);
     }

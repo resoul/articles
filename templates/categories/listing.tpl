@@ -19,6 +19,22 @@
                     </a>
                 {/foreach}
             </div>
+
+            {if $page->pagination->getTotalPages() > 1}
+                <div class="pagination">
+                    {if $page->pagination->page > 1}
+                        <a href="/category/listing?page={$page->pagination->page-1}" class="page-link">&larr;</a>
+                    {/if}
+
+                    {for $i=1 to $page->pagination->getTotalPages()}
+                        <a href="/category/listing?page={$i}" class="page-link{if $i === $page->pagination->page} active{/if}">{$i}</a>
+                    {/for}
+
+                    {if $page->pagination->page < $page->pagination->getTotalPages()}
+                        <a href="/category/listing?page={$page->pagination->page+1}" class="page-link">&rarr;</a>
+                    {/if}
+                </div>
+            {/if}
         </div>
     </section>
 {/block}

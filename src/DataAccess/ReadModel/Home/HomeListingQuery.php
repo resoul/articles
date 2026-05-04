@@ -21,6 +21,7 @@ class HomeListingQuery extends AbstractReadModel
         $q
             ->select('a.*')
             ->from('articles AS a')
+            ->orderBy('a.id', 'DESC')
             ->limit(3);
 
         $result = [];

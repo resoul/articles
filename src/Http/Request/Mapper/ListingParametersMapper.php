@@ -13,7 +13,7 @@ class ListingParametersMapper
     private const DEFAULT_PER_PAGE = 10;
     private const MAX_PAGE_SIZE = 100;
     private const ALLOWED_SORTING_DIRECTIONS = ['ASC', 'DESC'];
-    private const DEFAULT_SORTING_DIRECTION = 'ASC';
+    private const DEFAULT_SORTING_DIRECTION = 'DESC';
 
     public static function mapPaginationFromRequest(QueryParameters $query): ListingPagination
     {

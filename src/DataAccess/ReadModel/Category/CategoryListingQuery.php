@@ -6,22 +6,30 @@ namespace App\DataAccess\ReadModel\Category;
 
 use App\DataAccess\ReadModel\AbstractReadModel;
 use App\DataAccess\ReadModel\Category\DTO\CategoryDTO;
+use App\DataAccess\ReadModel\Listing\CollectionWithPaginationFactory;
+use App\Domain\ValueObject\Listing\CollectionWithPagination;
+use App\Domain\ValueObject\Listing\ListingPagination;
+use App\Domain\ValueObject\Listing\ListingSorting;
 use App\Infrastructure\Clock\DateTimeFormatEnum;
 use App\Infrastructure\Clock\DateTimeProvider;
+use App\Infrastructure\Database\Query;
 
 class CategoryListingQuery extends AbstractReadModel
 {
-    public function getListing(): array
+    public function getListing(ListingPagination $pagination, ListingSorting $sort): CollectionWithPagination
     {
         $q = $this->createQuery();
 
         $q
-            ->select('*')
-            ->from('categories');
+            ->select('c.*')
+            ->from('categories AS c');
+
+        $q = $this->addListingSort($q, $sort);
+        $paginator = $this->getPaginator($q, $pagination);
 
         $result = [];
 
-        foreach ($q->getResult() as $item) {
+        foreach ($paginator->getData() as $item) {
             $result[] = new CategoryDTO(
                 id: (int) $item['id'],
                 name: $item['name'],
@@ -30,6 +38,18 @@ class CategoryListingQuery extends AbstractReadModel
             );
         }
 
-        return $result;
+        return CollectionWithPaginationFactory::build($pagination, $result, $paginator);
+    }
+
+    private function addListingSort(Query $query, ListingSorting $sort): Query
+    {
+        $map = [
+            'id' => 'c.id',
+            'name' => 'c.name',
+        ];
+        $orderField = $map[$sort->orderBy] ?? 'c.id';
+        $query->orderBy($orderField, $sort->orderDirection);
+
+        return $query;
     }
 }
